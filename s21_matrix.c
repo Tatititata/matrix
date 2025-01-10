@@ -49,41 +49,72 @@ int s21_sub_matrix(matrix_t *A, matrix_t *B, matrix_t *R) {
 }
 
 int matrix_arithmetics(matrix_t *A, matrix_t *B, matrix_t *R, char sign) {
-  int res = 0;
+  int res = 1;
   if (valid(A) && valid(B) && equal_size(A, B)) {
     if (R->matrix) {
       s21_remove_matrix(R);
     }
-    res = s21_create_matrix(A->rows, A->rows, R); // if OK res = 0
+    res = s21_create_matrix(A->rows, A->columns, R); // if OK res = 0
     if (!res) {
       for (int i = 0; i < A->rows; i++)
         for (int j = 0; j < A->columns; j++)
           if (sign == '+')
             R->matrix[i][j] = A->matrix[i][j] + B->matrix[i][j];
-          else
+          else if (sign == '-')
             R->matrix[i][j] = A->matrix[i][j] - B->matrix[i][j];
     }
   }
   return res;
 }
 
-int s21_mult_number(matrix_t *A, double number, matrix_t *R)
-{
-  int res = 0;
+int s21_mult_number(matrix_t *A, double number, matrix_t *R) {
+  int res = 1;
   if (valid(A)) {
     if (R->matrix) {
       s21_remove_matrix(R);
     }
-    res = s21_create_matrix(A->rows, A->rows, R); // if OK res = 0
+    res = s21_create_matrix(A->rows, A->columns, R); // if OK res = 0
     if (!res) {
       for (int i = 0; i < A->rows; i++)
         for (int j = 0; j < A->columns; j++)
-            R->matrix[i][j] = A->matrix[i][j] * number;
+          R->matrix[i][j] = A->matrix[i][j] * number;
     }
   }
   return res;
 }
 
+int s21_mult_matrix(matrix_t *A, matrix_t *B, matrix_t *R) {
+  int res = 1;
+  if (valid(A) && valid(B) && A->columns == B->rows) {
+    if (R->matrix) {
+      s21_remove_matrix(R);
+    }
+    res = s21_create_matrix(A->rows, B->columns, R); // if OK res = 0
+    if (!res) {
+      for (int i = 0; i < A->rows; i++)
+        for (int j = 0; j < B->columns; j++)
+          for (int k = 0; k < A->columns; k++)
+            R->matrix[i][j] += A->matrix[i][k] * B->matrix[k][j];
+    }
+  }
+  return res;
+}
+
+int s21_transpose(matrix_t *A, matrix_t *R) {
+  int res = 1;
+  if (valid(A)) {
+    if (R->matrix) {
+      s21_remove_matrix(R);
+    }
+    res = s21_create_matrix(A->columns, A->rows, R); // if OK res = 0
+    if (!res) {
+      for (int i = 0; i < A->columns; i++)
+        for (int j = 0; j < A->rows; j++)
+          R->matrix[i][j] = A->matrix[j][i];
+    }
+  }
+  return res;
+}
 
 void print_matrix(matrix_t *M) {
   if (valid(M)) {
