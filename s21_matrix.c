@@ -30,16 +30,60 @@ int valid(matrix_t *M) {
 }
 
 int s21_eq_matrix(matrix_t *A, matrix_t *B) {
+  int res = 1;
+  if (valid(A) && valid(B) && equal_size(A, B)) {
+    for (int i = 0; i < A->rows && res; i++)
+      for (int j = 0; j < A->columns && res; j++)
+        res *= ((A->matrix[i][j] - B->matrix[i][j]) < EPS);
+  } else
+    res = 0;
+  return res;
+}
+
+int s21_sum_matrix(matrix_t *A, matrix_t *B, matrix_t *R) {
+  return (matrix_arithmetics(A, B, R, '+'));
+}
+
+int s21_sub_matrix(matrix_t *A, matrix_t *B, matrix_t *R) {
+  return (matrix_arithmetics(A, B, R, '-'));
+}
+
+int matrix_arithmetics(matrix_t *A, matrix_t *B, matrix_t *R, char sign) {
   int res = 0;
-  if (valid(A) && valid(B)) {
-    if (A->columns == B->columns && A->rows == B->rows) {
-      for (int i = 0; i < A->rows && !res; i++)
-        for (int j = 0; j < A->columns && !res; j++)
-          res = (A->matrix[i][j] - B->matrix[i][j]) < EPS;
+  if (valid(A) && valid(B) && equal_size(A, B)) {
+    if (R->matrix) {
+      s21_remove_matrix(R);
+    }
+    res = s21_create_matrix(A->rows, A->rows, R); // if OK res = 0
+    if (!res) {
+      for (int i = 0; i < A->rows; i++)
+        for (int j = 0; j < A->columns; j++)
+          if (sign == '+')
+            R->matrix[i][j] = A->matrix[i][j] + B->matrix[i][j];
+          else
+            R->matrix[i][j] = A->matrix[i][j] - B->matrix[i][j];
     }
   }
   return res;
 }
+
+int s21_mult_number(matrix_t *A, double number, matrix_t *R)
+{
+  int res = 0;
+  if (valid(A)) {
+    if (R->matrix) {
+      s21_remove_matrix(R);
+    }
+    res = s21_create_matrix(A->rows, A->rows, R); // if OK res = 0
+    if (!res) {
+      for (int i = 0; i < A->rows; i++)
+        for (int j = 0; j < A->columns; j++)
+            R->matrix[i][j] = A->matrix[i][j] * number;
+    }
+  }
+  return res;
+}
+
 
 void print_matrix(matrix_t *M) {
   if (valid(M)) {
@@ -52,7 +96,11 @@ void print_matrix(matrix_t *M) {
 }
 
 void fill_zeroes(matrix_t *M) {
-    for (int i = 0; i < M->rows; i++)
-      for (int j = 0; j < M->columns; j++)
-        M->matrix[i][j] = 0;
+  for (int i = 0; i < M->rows; i++)
+    for (int j = 0; j < M->columns; j++)
+      M->matrix[i][j] = 0;
+}
+
+int equal_size(matrix_t *A, matrix_t *B) {
+  return A->columns == B->columns && A->rows == B->rows;
 }

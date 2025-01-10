@@ -15,6 +15,8 @@ typedef struct matrix_struct {
 void s21_remove_matrix(matrix_t *M);
 void fill_zeroes(matrix_t *M);
 void print_matrix(matrix_t *M);
+int equal_size(matrix_t *A, matrix_t *B);
+int matrix_arithmetics(matrix_t *A, matrix_t *B, matrix_t *R, char sign);
 int s21_create_matrix(int rows, int columns, matrix_t *result);
 int s21_eq_matrix(matrix_t *A, matrix_t *B);
 int s21_sum_matrix(matrix_t *A, matrix_t *B, matrix_t *result);
