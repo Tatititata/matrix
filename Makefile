@@ -68,8 +68,8 @@ valgrind_tests: $(TEST_EXECUTABLES)
 	done
 	@echo "end"
 
-cl: *.c *.h main_folder/*.c main_folder/*.c 
-	clang-format -i *.c *.h main_folder/*.c 
+cl: *.c *.h main_folder/*.c tests/*.c 
+	clang-format -i *.c *.h main_folder/*.c tests/*.c tests/*.h
 
 cpp: 
 	cppcheck --enable=all --suppress=missingIncludeSystem ../decimals
