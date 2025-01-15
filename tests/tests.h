@@ -3,15 +3,17 @@
 
 #include "../s21_matrix.h"
 #include <check.h>
+#include <stdlib.h>
+#include <time.h>
 
 Suite *create();
 Suite *sum();
-Suite *sub();  
-Suite *mult_num(); 
-Suite *mult();               
-Suite *transpose();
-Suite *det();
-Suite *comp();
-
+Suite *sub();
+Suite *equal();
+// Suite *mult_num();
+// Suite *mult();
+// Suite *transpose();
+// Suite *det();
+// Suite *comp();
 
 #endif

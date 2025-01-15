@@ -2,9 +2,10 @@
 
 int s21_create_matrix(int rows, int col, matrix_t *r) {
   int res = 0;
-  if (col < 1 || rows < 1)
+  if (col < 1 || rows < 1) {
     res = 1;
-  else {
+    r->matrix = NULL;
+  } else {
     r->matrix = malloc(rows * col * sizeof(double) + rows * sizeof(double *));
     if (r->matrix) {
       double *ptr = (double *)(r->matrix + rows);
@@ -19,7 +20,7 @@ int s21_create_matrix(int rows, int col, matrix_t *r) {
 }
 
 void s21_remove_matrix(matrix_t *M) {
-  if (M) {
+  if (M != NULL) {
     if (M->matrix)
       free(M->matrix);
   }
@@ -51,9 +52,9 @@ int s21_sub_matrix(matrix_t *A, matrix_t *B, matrix_t *R) {
 int matrix_arithmetics(matrix_t *A, matrix_t *B, matrix_t *R, char sign) {
   int res = 1;
   if (valid(A) && valid(B) && equal_size(A, B)) {
-    if (R->matrix) {
-      s21_remove_matrix(R);
-    }
+    // if (R->matrix) {
+    //   s21_remove_matrix(R);
+    // }
     res = s21_create_matrix(A->rows, A->columns, R); // if OK res = 0
     if (!res) {
       for (int i = 0; i < A->rows; i++)
@@ -103,9 +104,9 @@ int s21_mult_matrix(matrix_t *A, matrix_t *B, matrix_t *R) {
 int s21_transpose(matrix_t *A, matrix_t *R) {
   int res = 1;
   if (valid(A)) {
-    if (R->matrix) {
-      s21_remove_matrix(R);
-    }
+    // if (R->matrix) {
+    //   s21_remove_matrix(R);
+    // }
     res = s21_create_matrix(A->columns, A->rows, R); // if OK res = 0
     if (!res) {
       for (int i = 0; i < A->columns; i++)

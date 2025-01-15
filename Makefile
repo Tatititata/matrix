@@ -4,41 +4,30 @@ GCOV_FLAGS = -fprofile-arcs -ftest-coverage
 CHECK_LIBS = -lcheck -lsubunit -lrt -lpthread -lm
 
 TEST_DIR = ./tests
-OBJ_DIR = ./build
+BUILD_DIR = ./build
+OBJ_DIR = $(BUILD_DIR)/obj
 SOURCES = $(wildcard *.c)
 STATIC_LIB = ./s21_matrix.a
-STATIC_LIB_GCOV = ./s21_matrix_gcov.a
-MAIN_DIR = ./main_folder
+TEST_SRC = $(wildcard $(TEST_DIR)/*.c) 
+OBJECTS	 = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SOURCES))
 
-TEST_EXECUTABLES = $(patsubst $(TEST_DIR)/test_%.c, $(TEST_DIR)/test_%, $(wildcard $(TEST_DIR)/test_*.c))
+
+MAIN_DIR = ./main_folder
 
 
 all: $(STATIC_LIB) tests
 
-$(STATIC_LIB): clean
-	$(CC) $(CFLAGS) -c $(SOURCES)
-	ar rcs s21_matrix.a *.o
-	ranlib s21_matrix.a
-
-$(STATIC_LIB_GCOV): clean
-	$(CC) $(CFLAGS) $(GCOV_FLAGS) -c $(SOURCES)
-	ar rcs s21_matrix_gcov.a *.o
-	ranlib s21_matrix_gcov.a
+$(STATIC_LIB): $(OBJECTS)
+	ar rcs $(STATIC_LIB) $(OBJECTS)
+	ranlib $(STATIC_LIB)
 
 $(OBJ_DIR)/%.o: ./%.c
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(TEST_DIR)/test_%: $(TEST_DIR)/test_%.c $(STATIC_LIB_GCOV)
-	$(CC) $(CFLAGS) $(GCOV_FLAGS) $^ -o $@ $(CHECK_LIBS)
-
-tests: $(TEST_EXECUTABLES)
-	@echo "Running all tests..."
-	@for test in $(TEST_EXECUTABLES); do \
-		echo "Running $$test..."; \
-		./$$test || exit 1; \
-	done
-	@echo "All tests passed!"
+tests:
+	$(CC) $(CFLAGS) $(GCOV_FLAGS) $(SOURCES) $(TEST_SRC) -o unit_tests $(CHECK_LIBS)
+	./unit_tests
 	
 
 gcov_report: tests
@@ -52,7 +41,7 @@ clean:
 	rm -f $(STATIC_LIB) $(TEST_EXECUTABLES) $(OBJ_DIR)/*.o coverage.info
 	rm -f $(TEST_DIR)/*.gcno $(TEST_DIR)/*.gcda 
 	rm -f *.gcno *.gcda $(STATIC_LIB_GCOV)
-	rm -f main 
+	rm -f main unit_tests
 	rm -rf $(OBJ_DIR) coverage_report
 
 clean_tests:
