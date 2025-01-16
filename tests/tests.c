@@ -13,7 +13,7 @@ void run_tests() {
                           equal(),
                           // mult_num(),
                           // mult(),
-                          // transpose(),
+                          transpose(),
                           // det(),
                           // comp(),
                           NULL};

@@ -21,14 +21,14 @@ START_TEST(test_sum_0) {
         mat1.matrix[i][j] = rand() % 10;
     printf("-----------Matrix 1-----------\n");
     print_matrix(&mat1);
-    printf("------------------------------\n");
+    printf("\n");
 
     for (int i = 0; i < mat2.rows; i++)
       for (int j = 0; j < mat2.columns; j++)
         mat2.matrix[i][j] = rand() % 10;
     printf("-----------Matrix 2-----------\n");
     print_matrix(&mat2);
-    printf("------------------------------\n");
+    printf("\n");
     ck_assert_int_eq(s21_sum_matrix(&mat1, &mat2, &res), 1);
     ck_assert_int_eq((mat1.rows == mat2.rows) && (mat1.columns == mat2.columns),
                      0);
@@ -57,19 +57,19 @@ START_TEST(test_sum_1) {
         mat1.matrix[i][j] = rand() % 10;
     printf("-----------Matrix 1-----------\n");
     print_matrix(&mat1);
-    printf("------------------------------\n");
+    printf("\n");
 
     for (int i = 0; i < mat2.rows; i++)
       for (int j = 0; j < mat2.columns; j++)
         mat2.matrix[i][j] = rand() % 10;
     printf("-----------Matrix 2-----------\n");
     print_matrix(&mat2);
-    printf("------------------------------\n");
+    printf("\n");
     int return_value_res = s21_sum_matrix(&mat1, &mat2, &res);
     if (return_value_res == 0) {
       printf("------------Result------------\n");
       print_matrix(&res);
-      printf("------------------------------\n");
+      printf("\n");
       s21_remove_matrix(&res);
       ck_assert_int_ne(mat1.rows * mat1.columns * mat2.rows * mat2.columns, 0);
     }
@@ -98,19 +98,19 @@ START_TEST(test_sum_2) {
         mat1.matrix[i][j] = rand() % 10;
     printf("-----------Matrix 1-----------\n");
     print_matrix(&mat1);
-    printf("------------------------------\n");
+    printf("\n");
 
     for (int i = 0; i < mat2.rows; i++)
       for (int j = 0; j < mat2.columns; j++)
         mat2.matrix[i][j] = rand() % 10;
     printf("-----------Matrix 2-----------\n");
     print_matrix(&mat2);
-    printf("------------------------------\n");
+    printf("\n");
     int return_value_res = s21_sum_matrix(&mat1, &mat2, &res);
     if (return_value_res == 0) {
       printf("------------Result------------\n");
       print_matrix(&res);
-      printf("------------------------------\n");
+      printf("\n");
       s21_remove_matrix(&res);
       ck_assert_int_ne(mat1.rows * mat1.columns * mat2.rows * mat2.columns, 0);
     }
@@ -118,6 +118,9 @@ START_TEST(test_sum_2) {
 
   s21_remove_matrix(&mat1);
   s21_remove_matrix(&mat2);
+  printf("---------End Sum Test----------\n");
+  printf("-------------------------------\n");
+  printf("\n");
 }
 
 END_TEST

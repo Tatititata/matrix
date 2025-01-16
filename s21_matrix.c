@@ -26,7 +26,7 @@ void s21_remove_matrix(matrix_t *M) {
   }
 }
 
-int valid(matrix_t *M) {
+int valid(const matrix_t *M) {
   return (M && M->columns > 0 && M->rows > 0 && M->matrix);
 }
 
@@ -52,9 +52,6 @@ int s21_sub_matrix(matrix_t *A, matrix_t *B, matrix_t *R) {
 int matrix_arithmetics(matrix_t *A, matrix_t *B, matrix_t *R, char sign) {
   int res = 1;
   if (valid(A) && valid(B) && equal_size(A, B)) {
-    // if (R->matrix) {
-    //   s21_remove_matrix(R);
-    // }
     res = s21_create_matrix(A->rows, A->columns, R); // if OK res = 0
     if (!res) {
       for (int i = 0; i < A->rows; i++)
@@ -104,9 +101,6 @@ int s21_mult_matrix(matrix_t *A, matrix_t *B, matrix_t *R) {
 int s21_transpose(matrix_t *A, matrix_t *R) {
   int res = 1;
   if (valid(A)) {
-    // if (R->matrix) {
-    //   s21_remove_matrix(R);
-    // }
     res = s21_create_matrix(A->columns, A->rows, R); // if OK res = 0
     if (!res) {
       for (int i = 0; i < A->columns; i++)
@@ -117,11 +111,11 @@ int s21_transpose(matrix_t *A, matrix_t *R) {
   return res;
 }
 
-void print_matrix(matrix_t *M) {
+void print_matrix(const matrix_t *M) {
   if (valid(M)) {
     for (int i = 0; i < M->rows; i++) {
       for (int j = 0; j < M->columns; j++)
-        printf("%lf ", M->matrix[i][j]);
+        printf("%.10lf ", M->matrix[i][j]);
       printf("\n");
     }
   }
@@ -133,6 +127,6 @@ void fill_zeroes(matrix_t *M) {
       M->matrix[i][j] = 0;
 }
 
-int equal_size(matrix_t *A, matrix_t *B) {
+int equal_size(const matrix_t *A, const matrix_t *B) {
   return A->columns == B->columns && A->rows == B->rows;
 }

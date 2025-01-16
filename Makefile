@@ -49,9 +49,9 @@ clean_tests:
 
 .PHONY: all tests tests gcov_report clean clean_tests
 
-valgrind_tests: $(TEST_EXECUTABLES)
+valgrind_tests: tests
 	@echo "Running tests with Valgrind..."
-	@for test in $(TEST_EXECUTABLES); do \
+	@for test in ./unit_tests; do \
 		echo "Running $$test with Valgrind..."; \
 		valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --trace-children=yes -s ./$$test 2>&1 | grep -e "ERROR" || true; \
 	done

@@ -12,10 +12,12 @@ START_TEST(test_create_0) {
     for (int i = 0; i < mat.rows; i++)
       for (int j = 0; j < mat.columns; j++)
         mat.matrix[i][j] = rand() % 10;
+  printf("---------Create Matrix---------\n");
     print_matrix(&mat);
     s21_remove_matrix(&mat);
     ck_assert_int_ne(rows * cols, 0);
   }
+
 }
 END_TEST
 
@@ -40,6 +42,9 @@ START_TEST(test_create_3) {
   int rows = -1 - rand() % 10;
   int cols = rand() % 10;
   ck_assert_int_eq(s21_create_matrix(rows, cols, &mat), 1);
+  printf("---- End Test Create Matrix----\n");
+  printf("-------------------------------\n");
+  printf("\n");
 }
 END_TEST
 
@@ -51,5 +56,6 @@ Suite *create() {
   tcase_add_test(tc_core, test_create_2);
   tcase_add_test(tc_core, test_create_3);
   suite_add_tcase(s, tc_core);
+
   return s;
 }
