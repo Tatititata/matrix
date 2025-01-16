@@ -8,11 +8,13 @@ void run_case(Suite(*test_case)) {
 }
 
 void run_tests() {
-  Suite *suite_cases[] = {create(), sum(),
-                          sub(),
-                          equal(),
-                          // mult_num(),
-                          // mult(),
+  Suite *suite_cases[] = {
+    create(), 
+  sum(), 
+  sub(), 
+  equal(), 
+  mult_num(), 
+  mult(),
                           transpose(),
                           // det(),
                           // comp(),
@@ -23,7 +25,7 @@ void run_tests() {
 }
 
 int main() {
-
+  srand(time(0));
   run_tests();
   return 0;
 }

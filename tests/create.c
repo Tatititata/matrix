@@ -4,27 +4,24 @@
 START_TEST(test_create_0) {
 
   matrix_t mat;
-  srand(time(0));
+
   int rows = 1 + rand() % 10;
   int cols = 1 + rand() % 10;
   int return_value = s21_create_matrix(rows, cols, &mat);
   if (return_value == 0) {
-    for (int i = 0; i < mat.rows; i++)
-      for (int j = 0; j < mat.columns; j++)
-        mat.matrix[i][j] = rand() % 10;
-  printf("---------Create Matrix---------\n");
+    fill_matrix(&mat);
+    printf("---------Create Matrix---------\n");
     print_matrix(&mat);
     s21_remove_matrix(&mat);
     ck_assert_int_ne(rows * cols, 0);
   }
-
 }
 END_TEST
 
 START_TEST(test_create_1) {
   matrix_t mat;
   int rows = rand() % 10;
-  int cols = -1 - rand() % 10;
+  int cols = -1 - (double)rand() / (double)RAND_MAX;
   ck_assert_int_eq(s21_create_matrix(rows, cols, &mat), 1);
 }
 END_TEST

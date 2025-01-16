@@ -4,7 +4,7 @@
 START_TEST(test_sum_0) {
 
   matrix_t mat1, mat2, res;
-  srand(time(0));
+
   int rows1 = 1 + rand() % 10;
   int cols1 = 2 + rand() % 10;
   printf("rows %d, cols %d\n", rows1, cols1);
@@ -42,7 +42,7 @@ END_TEST
 START_TEST(test_sum_1) {
 
   matrix_t mat1, mat2, res;
-  srand(time(0));
+
   int rows1 = 1 + rand() % 10;
   int cols1 = 1 + rand() % 10;
   int return_value1 = s21_create_matrix(rows1, cols1, &mat1);
@@ -52,16 +52,12 @@ START_TEST(test_sum_1) {
   int return_value2 = s21_create_matrix(rows2, cols2, &mat2);
 
   if (return_value1 == 0 && return_value2 == 0) {
-    for (int i = 0; i < mat1.rows; i++)
-      for (int j = 0; j < mat1.columns; j++)
-        mat1.matrix[i][j] = rand() % 10;
+    fill_matrix(&mat1);
     printf("-----------Matrix 1-----------\n");
     print_matrix(&mat1);
     printf("\n");
 
-    for (int i = 0; i < mat2.rows; i++)
-      for (int j = 0; j < mat2.columns; j++)
-        mat2.matrix[i][j] = rand() % 10;
+    fill_matrix(&mat2);
     printf("-----------Matrix 2-----------\n");
     print_matrix(&mat2);
     printf("\n");
@@ -83,7 +79,7 @@ END_TEST
 START_TEST(test_sum_2) {
 
   matrix_t mat1, mat2, res;
-  srand(time(0));
+
   int rows1 = 1 + rand() % 11;
   int cols1 = 1 + rand() % 11;
   int return_value1 = s21_create_matrix(rows1, cols1, &mat1);
@@ -93,16 +89,12 @@ START_TEST(test_sum_2) {
   int return_value2 = s21_create_matrix(rows2, cols2, &mat2);
 
   if (return_value1 == 0 && return_value2 == 0) {
-    for (int i = 0; i < mat1.rows; i++)
-      for (int j = 0; j < mat1.columns; j++)
-        mat1.matrix[i][j] = rand() % 10;
+    fill_matrix(&mat1);
     printf("-----------Matrix 1-----------\n");
     print_matrix(&mat1);
     printf("\n");
 
-    for (int i = 0; i < mat2.rows; i++)
-      for (int j = 0; j < mat2.columns; j++)
-        mat2.matrix[i][j] = rand() % 10;
+    fill_matrix(&mat2);
     printf("-----------Matrix 2-----------\n");
     print_matrix(&mat2);
     printf("\n");

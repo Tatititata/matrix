@@ -13,7 +13,6 @@ int s21_create_matrix(int rows, int col, matrix_t *r) {
         r->matrix[i] = ptr + col * i;
       r->rows = rows;
       r->columns = col;
-      fill_zeroes(r);
     }
   }
   return res;
@@ -33,8 +32,8 @@ int valid(const matrix_t *M) {
 int s21_eq_matrix(matrix_t *A, matrix_t *B) {
   int res = 1;
   if (valid(A) && valid(B) && equal_size(A, B)) {
-    for (int i = 0; i < A->rows && res; i++)
-      for (int j = 0; j < A->columns && res; j++)
+    for (int i = 0; (i < A->rows) && res; i++)
+      for (int j = 0; (j < A->columns) && res; j++)
         res *= ((A->matrix[i][j] - B->matrix[i][j]) < EPS);
   } else
     res = 0;
@@ -68,9 +67,6 @@ int matrix_arithmetics(matrix_t *A, matrix_t *B, matrix_t *R, char sign) {
 int s21_mult_number(matrix_t *A, double number, matrix_t *R) {
   int res = 1;
   if (valid(A)) {
-    if (R->matrix) {
-      s21_remove_matrix(R);
-    }
     res = s21_create_matrix(A->rows, A->columns, R); // if OK res = 0
     if (!res) {
       for (int i = 0; i < A->rows; i++)
@@ -84,9 +80,6 @@ int s21_mult_number(matrix_t *A, double number, matrix_t *R) {
 int s21_mult_matrix(matrix_t *A, matrix_t *B, matrix_t *R) {
   int res = 1;
   if (valid(A) && valid(B) && A->columns == B->rows) {
-    if (R->matrix) {
-      s21_remove_matrix(R);
-    }
     res = s21_create_matrix(A->rows, B->columns, R); // if OK res = 0
     if (!res) {
       for (int i = 0; i < A->rows; i++)
@@ -115,18 +108,20 @@ void print_matrix(const matrix_t *M) {
   if (valid(M)) {
     for (int i = 0; i < M->rows; i++) {
       for (int j = 0; j < M->columns; j++)
-        printf("%.10lf ", M->matrix[i][j]);
+        printf("%lf ", M->matrix[i][j]);
       printf("\n");
     }
   }
 }
 
-void fill_zeroes(matrix_t *M) {
-  for (int i = 0; i < M->rows; i++)
-    for (int j = 0; j < M->columns; j++)
-      M->matrix[i][j] = 0;
+int equal_size(const matrix_t *A, const matrix_t *B) {
+  return (A->columns == B->columns) && (A->rows == B->rows);
 }
 
-int equal_size(const matrix_t *A, const matrix_t *B) {
-  return A->columns == B->columns && A->rows == B->rows;
+void fill_matrix(matrix_t *M) {
+  for (int i = 0; i < M->rows; i++)
+    for (int j = 0; j < M->columns; j++)
+      M->matrix[i][j] = (double)rand() / (double)RAND_MAX;
 }
+
+double s21_determinant(matrix_t *A, double *det)

@@ -3,7 +3,6 @@
 
 START_TEST(test_transpose_0) {
 
-
   srand(time(0));
   matrix_t mat1, res;
 
@@ -12,9 +11,7 @@ START_TEST(test_transpose_0) {
   int return_value1 = s21_create_matrix(rows1, cols1, &mat1);
 
   if (return_value1 == 0) {
-    for (int i = 0; i < mat1.rows; i++)
-      for (int j = 0; j < mat1.columns; j++)
-        mat1.matrix[i][j] = rand() % 10;
+    fill_matrix(&mat1);
     printf("-----------Matrix-------------\n");
     print_matrix(&mat1);
     printf("\n");
@@ -40,9 +37,7 @@ START_TEST(test_transpose_1) {
   int return_value1 = s21_create_matrix(rows1, cols1, &mat1);
 
   if (return_value1 == 0) {
-    for (int i = 0; i < mat1.rows; i++)
-      for (int j = 0; j < mat1.columns; j++)
-        mat1.matrix[i][j] = rand() % 10;
+    fill_matrix(&mat1);
     printf("-----------Matrix-------------\n");
     print_matrix(&mat1);
     printf("\n");
@@ -55,7 +50,7 @@ START_TEST(test_transpose_1) {
       s21_remove_matrix(&res);
       ck_assert_int_eq(mat1.rows == res.columns && mat1.columns == res.rows, 1);
     }
-}
+  }
 }
 END_TEST
 
@@ -68,9 +63,7 @@ START_TEST(test_transpose_2) {
   int return_value1 = s21_create_matrix(rows1, cols1, &mat1);
 
   if (return_value1 == 0) {
-    for (int i = 0; i < mat1.rows; i++)
-      for (int j = 0; j < mat1.columns; j++)
-        mat1.matrix[i][j] = rand() % 10;
+    fill_matrix(&mat1);
     printf("-----------Matrix-------------\n");
     print_matrix(&mat1);
     printf("\n");
@@ -88,7 +81,7 @@ START_TEST(test_transpose_2) {
   s21_remove_matrix(&mat1);
   printf("------End Transpose Test-------\n");
   printf("-------------------------------\n");
-  printf("\n"); 
+  printf("\n");
 }
 
 END_TEST

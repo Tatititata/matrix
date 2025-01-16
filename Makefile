@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g -std=c11
 GCOV_FLAGS = -fprofile-arcs -ftest-coverage
-CHECK_LIBS = -lcheck -lsubunit -lrt -lpthread -lm
+CHECK_FLAGS = -lcheck -lsubunit -lrt -lpthread -lm
 
 TEST_DIR = ./tests
 BUILD_DIR = ./build
@@ -25,9 +25,10 @@ $(OBJ_DIR)/%.o: ./%.c
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-tests:
-	$(CC) $(CFLAGS) $(GCOV_FLAGS) $(SOURCES) $(TEST_SRC) -o unit_tests $(CHECK_LIBS)
-	./unit_tests
+tests: 
+	$(CC) $(CFLAGS) $(GCOV_FLAGS) $(SOURCES) $(TEST_SRC) -o unit_tests $(CHECK_FLAGS)
+	./unit_tests 
+	
 	
 
 gcov_report: tests
@@ -38,14 +39,17 @@ gcov_report: tests
 
 clean:
 	rm -f *.o
-	rm -f $(STATIC_LIB) $(TEST_EXECUTABLES) $(OBJ_DIR)/*.o coverage.info
+	rm -f $(OBJ_DIR)/*.o coverage.info
 	rm -f $(TEST_DIR)/*.gcno $(TEST_DIR)/*.gcda 
 	rm -f *.gcno *.gcda $(STATIC_LIB_GCOV)
 	rm -f main unit_tests
 	rm -rf $(OBJ_DIR) coverage_report
 
 clean_tests:
-	rm -f $(TEST_EXECUTABLES)
+	rm -f $(TEST_DIR)/*.gcno $(TEST_DIR)/*.gcda 
+
+clean_lib:
+	rm -f $(STATIC_LIB) 
 
 .PHONY: all tests tests gcov_report clean clean_tests
 
