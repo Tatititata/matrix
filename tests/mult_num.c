@@ -122,10 +122,6 @@ START_TEST(test_mult_num_3) {
       s21_remove_matrix(&res);
     }
   }
-
-  printf("-------End Mult_num Test-------\n");
-  printf("-------------------------------\n");
-  printf("\n");
 }
 
 END_TEST

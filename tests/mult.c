@@ -5,13 +5,13 @@ START_TEST(test_mult_0) {
 
   matrix_t mat1, mat2, res;
 
-  int rows1 = 1 + rand() % 10;
-  int cols1 = 2 + rand() % 10;
+  int rows1 = 5;
+  int cols1 = 2;
   printf("rows %d, cols %d\n", rows1, cols1);
   int return_value1 = s21_create_matrix(rows1, cols1, &mat1);
 
-  int rows2 = rows1 + 1;
-  int cols2 = cols1 + 1;
+  int rows2 = 4;
+  int cols2 = 3;
   int return_value2 = s21_create_matrix(rows2, cols2, &mat2);
   printf("rows %d, cols %d\n", rows2, cols2);
 
@@ -27,7 +27,7 @@ START_TEST(test_mult_0) {
     printf("-----------Matrix 2-----------\n");
     print_matrix(&mat2);
     printf("\n");
-    ck_assert_int_eq(s21_mult_matrix(&mat1, &mat2, &res), 1);
+    ck_assert_int_eq(s21_mult_matrix(&mat1, &mat2, &res), 2);
     ck_assert_int_eq((mat1.columns == mat2.rows), 0);
 
     s21_remove_matrix(&mat1);

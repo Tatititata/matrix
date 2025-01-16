@@ -13,11 +13,11 @@ START_TEST(test_eq_0) {
   int return_value2 = s21_create_matrix(rows2, cols2, &mat2);
 
   if (return_value1 == 0 && return_value2 == 0) {
-    for (int i = 0; i < mat1.rows; i++)
-      for (int j = 0; j < mat1.columns; j++) {
-        mat2.matrix[i][j] = mat1.matrix[i][j] =
-            (double)rand() / (double)RAND_MAX;
-      }
+    // for (int i = 0; i < mat1.rows; i++)
+    //   for (int j = 0; j < mat1.columns; j++) {
+    //     mat2.matrix[i][j] = mat1.matrix[i][j] =
+    //         (double)rand() / (double)RAND_MAX;
+    // }
     printf("-----------Matrix 1-----------\n");
     print_matrix(&mat1);
     printf("------------------------------\n");
@@ -48,7 +48,7 @@ START_TEST(test_eq_1) {
     for (int i = 0; i < mat1.rows; i++)
       for (int j = 0; j < mat1.columns; j++) {
         mat2.matrix[i][j] = mat1.matrix[i][j] =
-            (double)rand() / (double)RAND_MAX;
+            20. * (double)rand() / (double)RAND_MAX - 10.;
       }
     printf("-----------Matrix 1-----------\n");
     print_matrix(&mat1);

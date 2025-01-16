@@ -3,7 +3,7 @@
 
 START_TEST(test_sum_0) {
 
-  matrix_t mat1, mat2, res;
+  matrix_t mat1, mat2, res = {0};
 
   int rows1 = 1 + rand() % 10;
   int cols1 = 2 + rand() % 10;
@@ -29,13 +29,12 @@ START_TEST(test_sum_0) {
     printf("-----------Matrix 2-----------\n");
     print_matrix(&mat2);
     printf("\n");
-    ck_assert_int_eq(s21_sum_matrix(&mat1, &mat2, &res), 1);
+    ck_assert_int_eq(s21_sum_matrix(&mat1, &mat2, &res), 2);
     ck_assert_int_eq((mat1.rows == mat2.rows) && (mat1.columns == mat2.columns),
                      0);
-
-    s21_remove_matrix(&mat1);
-    s21_remove_matrix(&mat2);
   }
+  s21_remove_matrix(&mat1);
+  s21_remove_matrix(&mat2);
 }
 END_TEST
 

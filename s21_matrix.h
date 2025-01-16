@@ -1,8 +1,10 @@
 #ifndef S21_MATRIX
 #define S21_MATRIX
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #define EPS 1e-7
 
@@ -29,6 +31,7 @@ int s21_calc_complements(matrix_t *A, matrix_t *R);
 int s21_determinant(matrix_t *A, double *det);
 int s21_inverse_matrix(matrix_t *A, matrix_t *R);
 int valid(const matrix_t *M);
+void swap(double **a, double **b);
 
 // Реализуй основные действия с матрицами (частично описанные
 // [выше](#операции-над-матрицами)): create_matrix (создание), remove_matrix

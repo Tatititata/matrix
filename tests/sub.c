@@ -26,7 +26,7 @@ START_TEST(test_sub_0) {
     print_matrix(&mat2);
     printf("\n");
 
-    ck_assert_int_eq(s21_sub_matrix(&mat1, &mat2, &res), 1);
+    ck_assert_int_eq(s21_sub_matrix(&mat1, &mat2, &res), 2);
     ck_assert_int_eq((mat1.rows == mat2.rows) && (mat1.columns == mat2.columns),
                      0);
 

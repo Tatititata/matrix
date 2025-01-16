@@ -24,6 +24,7 @@ START_TEST(test_transpose_0) {
       s21_remove_matrix(&res);
       ck_assert_int_eq(mat1.rows == res.columns && mat1.columns == res.rows, 1);
     }
+    s21_remove_matrix(&mat1);
   }
 }
 END_TEST
@@ -50,6 +51,7 @@ START_TEST(test_transpose_1) {
       s21_remove_matrix(&res);
       ck_assert_int_eq(mat1.rows == res.columns && mat1.columns == res.rows, 1);
     }
+    s21_remove_matrix(&mat1);
   }
 }
 END_TEST
@@ -76,9 +78,9 @@ START_TEST(test_transpose_2) {
       s21_remove_matrix(&res);
       ck_assert_int_eq(mat1.rows == res.columns && mat1.columns == res.rows, 1);
     }
+    s21_remove_matrix(&mat1);
   }
 
-  s21_remove_matrix(&mat1);
   printf("------End Transpose Test-------\n");
   printf("-------------------------------\n");
   printf("\n");

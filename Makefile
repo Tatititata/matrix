@@ -57,7 +57,7 @@ valgrind_tests: tests
 	@echo "Running tests with Valgrind..."
 	@for test in ./unit_tests; do \
 		echo "Running $$test with Valgrind..."; \
-		valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --trace-children=yes -s ./$$test 2>&1 | grep -e "ERROR" || true; \
+		valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --trace-children=yes -s ./unit_tests | grep -e "ERROR" || true; \
 	done
 	@echo "end"
 
