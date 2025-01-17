@@ -157,10 +157,10 @@ int s21_calc_complements(matrix_t *M, matrix_t *R) {
     if (M->columns == 1)
       R->matrix[0][0] = 1;
     else if (M->columns == 2) {
-      R->matrix[0][0] = R->matrix[1][1];
-      R->matrix[1][1] = R->matrix[0][0];
-      R->matrix[0][1] = -R->matrix[1][0];
-      R->matrix[1][0] = -R->matrix[0][1];
+      R->matrix[0][0] = M->matrix[1][1];
+      R->matrix[1][1] = M->matrix[0][0];
+      R->matrix[0][1] = -M->matrix[1][0];
+      R->matrix[1][0] = -M->matrix[0][1];
     } else
       minor(M, R);
 
@@ -229,7 +229,7 @@ void print_matrix(const matrix_t *M) {
   if (valid(M)) {
     for (int i = 0; i < M->rows; i++) {
       for (int j = 0; j < M->columns; j++)
-        printf("%lf ", M->matrix[i][j]);
+        printf("%.10lf ", M->matrix[i][j]);
       printf("\n");
     }
   }

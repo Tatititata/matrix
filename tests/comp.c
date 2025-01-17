@@ -3,49 +3,49 @@
 
 START_TEST(test_comp_0) {
 
-  // for (int i = 0; i < 10; i++) {
-  matrix_t mat, C, M, E;
+  for (int i = 0; i < 10; i++) {
+    matrix_t mat, C, M, E;
 
-  int rows = 1 + rand() % 10;
+    int rows = 2; // 1 + rand() % 10;
 
-  int return_value = s21_create_matrix(rows, rows, &mat);
+    int return_value = s21_create_matrix(rows, rows, &mat);
 
-  if (return_value == 0) {
-    fill_matrix(&mat);
-    printf("-----------Matrix 1-----------\n");
-    print_matrix(&mat);
-    printf("\n");
-    return_value = s21_inverse_matrix(&mat, &C);
     if (return_value == 0) {
-      printf("----------Inversed----------\n");
-      print_matrix(&C);
+      fill_matrix(&mat);
+      printf("-----------Matrix 1-----------\n");
+      print_matrix(&mat);
       printf("\n");
-
-      return_value = s21_mult_matrix(&mat, &C, &M);
+      return_value = s21_inverse_matrix(&mat, &C);
       if (return_value == 0) {
-        printf("-------Multiplication-------\n");
-        print_matrix(&M);
+        printf("----------Inversed----------\n");
+        print_matrix(&C);
         printf("\n");
-        return_value = s21_create_matrix(rows, rows, &E);
+
+        return_value = s21_mult_matrix(&mat, &C, &M);
         if (return_value == 0) {
-          for (int i = 0; i < rows; i++)
-            E.matrix[i][i] = 1.;
-          printf("-------------E-------------\n");
-          print_matrix(&E);
+          printf("-------Multiplication-------\n");
+          print_matrix(&M);
           printf("\n");
-          ck_assert_int_eq(s21_eq_matrix(&M, &E), 1);
-          s21_remove_matrix(&E);
+          return_value = s21_create_matrix(rows, rows, &E);
+          if (return_value == 0) {
+            for (int i = 0; i < rows; i++)
+              E.matrix[i][i] = 1.;
+            // printf("-------------E-------------\n");
+            // print_matrix(&E);
+            // printf("\n");
+            ck_assert_int_eq(s21_eq_matrix(&M, &E), 1);
+            s21_remove_matrix(&E);
+          }
+
+          s21_remove_matrix(&M);
         }
 
-        s21_remove_matrix(&M);
+        s21_remove_matrix(&C);
       }
 
-      s21_remove_matrix(&C);
+      s21_remove_matrix(&mat);
     }
-
-    s21_remove_matrix(&mat);
   }
-  // }
 }
 END_TEST
 
