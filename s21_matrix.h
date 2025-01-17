@@ -4,7 +4,6 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 
 #define EPS 1e-7
 
@@ -15,6 +14,8 @@ typedef struct matrix_struct {
 } matrix_t;
 
 void s21_remove_matrix(matrix_t *M);
+void minor(matrix_t *M, matrix_t *R);
+double determinant(matrix_t *M);
 // void fill_zeroes(matrix_t *M);
 void fill_matrix(matrix_t *M);
 void print_matrix(const matrix_t *M);
@@ -27,9 +28,9 @@ int s21_sub_matrix(matrix_t *A, matrix_t *B, matrix_t *R);
 int s21_mult_number(matrix_t *A, double number, matrix_t *R);
 int s21_mult_matrix(matrix_t *A, matrix_t *B, matrix_t *R);
 int s21_transpose(matrix_t *A, matrix_t *R);
-int s21_calc_complements(matrix_t *A, matrix_t *R);
+int s21_calc_complements(matrix_t *A, matrix_t *C);
 int s21_determinant(matrix_t *A, double *det);
-int s21_inverse_matrix(matrix_t *A, matrix_t *R);
+int s21_inverse_matrix(matrix_t *A, matrix_t *I);
 int valid(const matrix_t *M);
 void swap(double **a, double **b);
 

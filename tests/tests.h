@@ -15,6 +15,6 @@ Suite *mult_num();
 Suite *mult();
 Suite *transpose();
 Suite *det();
-// Suite *comp();
+Suite *comp();
 
 #endif

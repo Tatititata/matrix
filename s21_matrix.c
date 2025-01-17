@@ -27,10 +27,6 @@ void s21_remove_matrix(matrix_t *M) {
   }
 }
 
-int valid(const matrix_t *M) {
-  return (M && M->columns > 0 && M->rows > 0 && M->matrix);
-}
-
 int s21_eq_matrix(matrix_t *A, matrix_t *B) {
   int res = 1;
   if (valid(A) && valid(B) && equal_size(A, B)) {
@@ -106,26 +102,6 @@ int s21_transpose(matrix_t *A, matrix_t *R) {
   return res;
 }
 
-void print_matrix(const matrix_t *M) {
-  if (valid(M)) {
-    for (int i = 0; i < M->rows; i++) {
-      for (int j = 0; j < M->columns; j++)
-        printf("%lf ", M->matrix[i][j]);
-      printf("\n");
-    }
-  }
-}
-
-int equal_size(const matrix_t *A, const matrix_t *B) {
-  return (A->columns == B->columns) && (A->rows == B->rows);
-}
-
-void fill_matrix(matrix_t *M) {
-  for (int i = 0; i < M->rows; i++)
-    for (int j = 0; j < M->columns; j++)
-      M->matrix[i][j] = 20 * (double)rand() / (double)RAND_MAX - 10.0;
-}
-
 int s21_determinant(matrix_t *M, double *det) {
   int res = 0;
   if (!valid(M) || (M->columns != M->rows)) {
@@ -140,12 +116,6 @@ int s21_determinant(matrix_t *M, double *det) {
       *det = determinant(M);
   }
   return res;
-}
-
-void swap(double **a, double **b) {
-  double *tmp = *a;
-  *a = *b;
-  *b = tmp;
 }
 
 double determinant(matrix_t *M) {
@@ -165,7 +135,7 @@ double determinant(matrix_t *M) {
       swap(&(A.matrix[c]), &(A.matrix[idx_of_max]));
       det *= (-1);
     }
-    if (A.matrix[c][c] > EPS) {
+    if (A.matrix[c][c] != 0) {
       for (int i = c + 1; i < A.rows; i++) {
         double tmp = A.matrix[c][i] / A.matrix[c][c];
         for (int j = c + 1; j < A.rows; j++)
@@ -182,31 +152,85 @@ double determinant(matrix_t *M) {
 }
 
 int s21_calc_complements(matrix_t *M, matrix_t *R) {
-  double det = 0;
-  int res = s21_determinant(M, &det); //if OK res = 0
-  if (!res && det) {
-    if (!s21_create_matrix(M->rows, M->rows, R))
-      if (M->columns == 1)
-        R->matrix[0][0] = 1;
-      else if (M->columns == 2)
-      {
-        R->matrix[0][0] = R->matrix[1][1];
-        R->matrix[1][1] = R->matrix[0][0];
-        R->matrix[0][1] = R->matrix[1][0];
-        R->matrix[1][0] = R->matrix[0][1];
-      }
-      else minor(M, R);
-  }
+  int res = 0;
+  if (valid(M) && !s21_create_matrix(M->rows, M->rows, R)) {
+    if (M->columns == 1)
+      R->matrix[0][0] = 1;
+    else if (M->columns == 2) {
+      R->matrix[0][0] = R->matrix[1][1];
+      R->matrix[1][1] = R->matrix[0][0];
+      R->matrix[0][1] = -R->matrix[1][0];
+      R->matrix[1][0] = -R->matrix[0][1];
+    } else
+      minor(M, R);
+
+  } else
+    res = 2;
   return res;
 }
 
 void minor(matrix_t *M, matrix_t *R) // rows > 2
 {
   matrix_t A;
-  if(!s21_create_matrix(M->rows - 1, M->rows - 1, R))
-  {
+  if (!s21_create_matrix(M->rows - 1, M->rows - 1, &A)) {
     for (int i = 0; i < M->rows; i++)
-      for (int j = 0; j < M->rows; j++)
-      
+      for (int j = 0; j < M->rows; j++) {
+        for (int k = 0; k < M->rows - 1; k++)
+          for (int p = 0; p < M->rows - 1; p++)
+            A.matrix[k][p] = M->matrix[k + (k >= i)][p + (p >= j)];
+        double det = 0;
+        s21_determinant(&A, &det);
+        R->matrix[i][j] = det * pow((-1.), (i + j));
+      }
+    s21_remove_matrix(&A);
+  }
+}
+
+int s21_inverse_matrix(matrix_t *M, matrix_t *I) {
+  double det = 0;
+  int res = s21_determinant(M, &det); // if OK res = 0
+  if (!res && det) {
+    matrix_t A;
+    if (!s21_calc_complements(M, &A)) {
+      matrix_t B;
+      if (!s21_transpose(&A, &B)) {
+        s21_mult_number(&B, 1. / det, I);
+        s21_remove_matrix(&B);
+      } else
+        res = 1;
+      s21_remove_matrix(&A);
+    } else
+      res = 1;
+  }
+  return res;
+}
+
+void swap(double **a, double **b) {
+  double *tmp = *a;
+  *a = *b;
+  *b = tmp;
+}
+
+int valid(const matrix_t *M) {
+  return (M && M->columns > 0 && M->rows > 0 && M->matrix);
+}
+
+int equal_size(const matrix_t *A, const matrix_t *B) {
+  return (A->columns == B->columns) && (A->rows == B->rows);
+}
+
+void fill_matrix(matrix_t *M) {
+  for (int i = 0; i < M->rows; i++)
+    for (int j = 0; j < M->columns; j++)
+      M->matrix[i][j] = 20 * (double)rand() / (double)RAND_MAX - 10.0;
+}
+
+void print_matrix(const matrix_t *M) {
+  if (valid(M)) {
+    for (int i = 0; i < M->rows; i++) {
+      for (int j = 0; j < M->columns; j++)
+        printf("%lf ", M->matrix[i][j]);
+      printf("\n");
+    }
   }
 }

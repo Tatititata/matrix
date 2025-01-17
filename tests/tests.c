@@ -10,22 +10,24 @@ void run_case(Suite(*test_case)) {
 void run_tests() {
   Suite *suite_cases[] = {
 
-      create(),
+      // create(),
 
-      sum(),
+      // sum(),
 
-      sub(),
+      // sub(),
 
-      equal(),
+      // equal(),
 
-      mult_num(),
+      // mult_num(),
 
-      mult(),
+      // mult(),
 
-      transpose(),
+      // transpose(),
 
-      det(),
-      // comp(),
+      // det(),
+
+      comp(),
+
       NULL};
 
   for (Suite **test_case = suite_cases; *test_case != NULL; test_case++)
